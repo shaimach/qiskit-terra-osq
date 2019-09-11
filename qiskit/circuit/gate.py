@@ -31,6 +31,7 @@ class Gate(Instruction):
             label (str or None): An optional label for the gate [Default: None]
         """
         self._label = label
+        self._decomp_list = None
         super().__init__(name, num_qubits, 0, params)
 
     def to_matrix(self):
@@ -52,6 +53,29 @@ class Gate(Instruction):
         if self.label:
             instruction.label = self.label
         return instruction
+
+    def add_decomposition(self,decomp_rule):
+        """append a new decomposition rule to  self.definition"""
+        self._decomp_list.append(decomp_rule)
+
+
+    def set_decomposition(self,decomp_rule):
+        """explicit override all the existing decomposition rules in self.definition"""
+        self.definition = decomp_rule
+
+    @property
+    def decomp_list(self):
+        """Return the list of possible decompositions."""
+        if self._decomp_list is None:
+            pass
+
+        return self._decomp_list
+
+    @decomp_list.setter
+    def decomp_list(self, list):
+        """Set the list of decomposition"""
+        self._decomp_list = list
+
 
     @property
     def label(self):
