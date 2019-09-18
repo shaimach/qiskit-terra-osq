@@ -18,6 +18,17 @@ from qiskit.exceptions import QiskitError
 from .instruction import Instruction
 
 
+def singleton(cls):
+    """decorator to create only one object of each gate class"""
+    instance = [None]
+    def wrapper(*args, **kwargs):
+        if instance[0] is None:
+            instance[0] = cls(*args, **kwargs)
+        return instance[0]
+
+    return wrapper
+
+
 class Gate(Instruction):
     """Unitary gate."""
 
@@ -58,17 +69,13 @@ class Gate(Instruction):
         """append a new decomposition rule to  self.definition"""
         self._decomp_list.append(decomp_rule)
 
-
     def set_decomposition(self,decomp_rule):
         """explicit override all the existing decomposition rules in self.definition"""
-        self.definition = decomp_rule
+        super(Gate,self.__class__).definition.fset(self,decomp_rule)
 
     @property
     def decomp_list(self):
         """Return the list of possible decompositions."""
-        if self._decomp_list is None:
-            pass
-
         return self._decomp_list
 
     @decomp_list.setter
