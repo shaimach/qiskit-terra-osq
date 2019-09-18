@@ -19,7 +19,7 @@ controlled-H gate.
 """
 import numpy as np
 
-from qiskit.circuit import Gate
+from qiskit.circuit import Gate, singleton
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.extensions.standard.h import HGate
@@ -30,6 +30,7 @@ from qiskit.extensions.standard.s import SGate
 from qiskit.extensions.standard.s import SdgGate
 
 
+@singleton
 class CHGate(Gate):
     """controlled-H gate."""
 

@@ -15,7 +15,7 @@
 """
 controlled-u3 gate.
 """
-from qiskit.circuit import Gate
+from qiskit.circuit import Gate, singleton
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.extensions.standard.u1 import U1Gate
@@ -23,6 +23,7 @@ from qiskit.extensions.standard.u3 import U3Gate
 from qiskit.extensions.standard.cx import CnotGate
 
 
+@singleton
 class Cu3Gate(Gate):
     """controlled-u3 gate."""
 

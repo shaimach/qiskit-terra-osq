@@ -17,10 +17,11 @@
 Two-pulse single-qubit gate.
 """
 import numpy
-from qiskit.circuit import Gate
+from qiskit.circuit import Gate, singleton
 from qiskit.circuit import QuantumCircuit
 
 
+@singleton
 class U3Gate(Gate):
     """Two-pulse single-qubit gate."""
 

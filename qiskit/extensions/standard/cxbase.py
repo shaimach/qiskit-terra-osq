@@ -16,10 +16,11 @@
 Fundamental controlled-NOT gate.
 """
 import warnings
-from qiskit.circuit import Gate
+from qiskit.circuit import Gate, singleton
 from qiskit.circuit import QuantumCircuit
 
 
+@singleton
 class CXBase(Gate):
     """Fundamental controlled-NOT gate."""
 

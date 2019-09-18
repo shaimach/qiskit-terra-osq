@@ -17,7 +17,7 @@
 """
 controlled-Y gate.
 """
-from qiskit.circuit import Gate
+from qiskit.circuit import Gate, singleton
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.extensions.standard.s import SGate
@@ -25,6 +25,7 @@ from qiskit.extensions.standard.s import SdgGate
 from qiskit.extensions.standard.cx import CnotGate
 
 
+@singleton
 class CyGate(Gate):
     """controlled-Y gate."""
 

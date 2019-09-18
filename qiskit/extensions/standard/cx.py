@@ -20,16 +20,16 @@ controlled-NOT gate.
 
 import numpy
 
-from qiskit.circuit import Gate
+from qiskit.circuit import Gate, singleton
 from qiskit.circuit import QuantumCircuit
 
-
+@singleton
 class CnotGate(Gate):
     """controlled-NOT gate."""
 
-    def __init__(self):
+    def __init__(self,label=None):
         """Create new CNOT gate."""
-        super().__init__("cx", 2, [])
+        super().__init__("cx", 2, [],label=None)
 
     def inverse(self):
         """Invert this gate."""

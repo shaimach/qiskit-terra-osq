@@ -18,13 +18,14 @@ Pauli X (bit-flip) gate.
 
 import numpy
 
-from qiskit.circuit import Gate
+from qiskit.circuit import Gate, singleton
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.qasm import pi
 from qiskit.extensions.standard.u3 import U3Gate
 
 
+@singleton
 class XGate(Gate):
     """Pauli X (bit-flip) gate."""
 

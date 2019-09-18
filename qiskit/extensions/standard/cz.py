@@ -19,13 +19,13 @@ controlled-Phase gate.
 """
 import numpy
 
-from qiskit.circuit import Gate
+from qiskit.circuit import Gate, singleton
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.extensions.standard.h import HGate
 from qiskit.extensions.standard.cx import CnotGate
 
-
+@singleton
 class CzGate(Gate):
     """controlled-Z gate."""
 

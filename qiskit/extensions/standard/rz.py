@@ -17,12 +17,13 @@
 """
 Rotation around the z-axis.
 """
-from qiskit.circuit import Gate
+from qiskit.circuit import Gate, singleton
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.extensions.standard.u1 import U1Gate
 
 
+@singleton
 class RZGate(Gate):
     """rotation around the z-axis."""
 
