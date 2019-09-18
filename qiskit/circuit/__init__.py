@@ -16,7 +16,7 @@
 from .quantumcircuit import QuantumCircuit
 from .classicalregister import ClassicalRegister, Clbit
 from .quantumregister import QuantumRegister, Qubit
-from .gate import Gate
+from .gate import Gate, singleton
 from .instruction import Instruction
 from .instructionset import InstructionSet
 from .measure import Measure
