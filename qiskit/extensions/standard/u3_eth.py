@@ -18,22 +18,43 @@ Two-pulse single-qubit gate.
 """
 import numpy
 from qiskit.circuit import Gate
+from qiskit.extensions.standard.rz import RZGate
+from qiskit.extensions.standard.rx_pi  import CX_PIGate
+from qiskit.extensions.standard.rx import RXGate
 from qiskit.circuit import QuantumCircuit
+from qiskit.circuit import QuantumRegister
 
 
-class U3Gate(Gate):
+class U3Gate_eth(Gate):
     """Two-pulse single-qubit gate."""
 
     def __init__(self, theta, phi, lam, label=None):
         """Create new two-pulse single qubit gate."""
-        super().__init__("u3", 1, [theta, phi, lam], label=label)
+        super().__init__("u3_eth", 1, [theta, phi, lam], label=label)
+
+    def _define(self):
+        """
+        gate cz a,b { h b; cx a,b; h b; }
+        """
+        theta, phi, lam = self.params
+        definition = []
+        q = QuantumRegister(1, "q")
+        rule = [
+            (RZGate(theta), [q[0]],[]),
+            (RXGate(phi), [q[0]], []),
+            (RZGate(lam), [q[0]],[])
+        ]
+        for inst in rule:
+            definition.append(inst)
+        self.definition = definition
+
 
     def inverse(self):
         """Invert this gate.
 
         u3(theta, phi, lamb)^dagger = u3(-theta, -lam, -phi)
         """
-        return U3Gate(-self.params[0], -self.params[2], -self.params[1])
+        return U3Gate_eth(-self.params[0], -self.params[2], -self.params[1])
 
     def to_matrix(self):
         """Return a Numpy.array for the U3 gate."""
@@ -51,9 +72,9 @@ class U3Gate(Gate):
             dtype=complex)
 
 
-def u3(self, theta, phi, lam, q):
+def u3_eth(self, theta, phi, lam, q):
     """Apply u3 to q."""
-    return self.append(U3Gate(theta, phi, lam), [q], [])
+    return self.append(U3Gate_eth(theta, phi, lam), [q], [])
 
 
-QuantumCircuit.u3 = u3
+QuantumCircuit.u3_eth = u3_eth

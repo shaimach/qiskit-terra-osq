@@ -19,14 +19,16 @@ Hadamard gate.
 """
 import numpy
 
-from qiskit.circuit import Gate, singleton
+from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.qasm import pi
 from qiskit.extensions.standard.u2 import U2Gate
+from qiskit.extensions.standard.u3_eth import U3Gate_eth
+from qiskit.extensions.standard.rz import RZGate
+from qiskit.extensions.standard.rx import RXGate
+from qiskit.extensions.standard.rx_pi import CX_PIGate
 
-
-@singleton
 class HGate(Gate):
     """Hadamard gate."""
 
@@ -41,11 +43,15 @@ class HGate(Gate):
         definition = []
         q = QuantumRegister(1, "q")
         rule = [
-            (U2Gate(0, pi), [q[0]], [])
+            (CX_PIGate(1), [q[0]], []),
+            (RZGate(pi / 2), [q[0]], []),
+            (CX_PIGate(1), [q[0]], []),
         ]
         for inst in rule:
             definition.append(inst)
         self.definition = definition
+
+
 
     def inverse(self):
         """Invert this gate."""

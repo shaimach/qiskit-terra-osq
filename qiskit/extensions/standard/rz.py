@@ -17,13 +17,13 @@
 """
 Rotation around the z-axis.
 """
-from qiskit.circuit import Gate, singleton
+import numpy
+from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.extensions.standard.u1 import U1Gate
 
 
-@singleton
 class RZGate(Gate):
     """rotation around the z-axis."""
 
@@ -50,6 +50,12 @@ class RZGate(Gate):
         rz(phi)^dagger = rz(-phi)
         """
         return RZGate(-self.params[0])
+
+    def to_matrix(self):
+        """Return a Numpy.array for the U3 gate."""
+        lam = self.params[0]
+        lam = float(lam)
+        return numpy.array([[numpy.exp(-1j * lam/2), 0], [0, numpy.exp(1j * lam/2)]], dtype=complex)
 
 
 def rz(self, phi, q):

@@ -18,7 +18,7 @@ Toffoli gate. Controlled-Controlled-X.
 
 import numpy
 
-from qiskit.circuit import Gate, singleton
+from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.extensions.standard.h import HGate
@@ -26,7 +26,7 @@ from qiskit.extensions.standard.cx import CnotGate
 from qiskit.extensions.standard.t import TGate
 from qiskit.extensions.standard.t import TdgGate
 
-@singleton
+
 class ToffoliGate(Gate):
     """Toffoli gate."""
 

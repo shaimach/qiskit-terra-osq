@@ -18,13 +18,17 @@ SWAP gate.
 
 import numpy
 
-from qiskit.circuit import Gate, singleton
+from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.extensions.standard.cx import CnotGate
+from qiskit.extensions.standard.h import  HGate
+from qiskit.extensions.standard.cz import CzGate
+from qiskit.extensions.standard.rz import RZGate
+from qiskit.extensions.standard.rx import RXGate
+from qiskit.extensions.standard.rx_pi import CX_PIGate
+from qiskit.qasm import pi
 
-
-@singleton
 class SwapGate(Gate):
     """SWAP gate."""
 
@@ -39,9 +43,27 @@ class SwapGate(Gate):
         definition = []
         q = QuantumRegister(2, "q")
         rule = [
-            (CnotGate(), [q[0], q[1]], []),
-            (CnotGate(), [q[1], q[0]], []),
-            (CnotGate(), [q[0], q[1]], [])
+            (CX_PIGate(1), [q[1]], []),
+            (RZGate(pi / 2), [q[1]], []),
+            (CX_PIGate(1), [q[1]], []),
+            (CzGate(), [q[0], q[1]], []),
+            (CX_PIGate(1), [q[1]], []),
+            (RZGate(pi / 2), [q[1]], []),
+            (CX_PIGate(1), [q[1]], []),
+            (CX_PIGate(1), [q[0]], []),
+            (RZGate(pi / 2), [q[0]], []),
+            (CX_PIGate(1), [q[0]], []),
+            (CzGate(), [q[1], q[0]], []),
+            (CX_PIGate(1), [q[0]], []),
+            (RZGate(pi / 2), [q[0]], []),
+            (CX_PIGate(1), [q[0]], []),
+            (CX_PIGate(1), [q[1]], []),
+            (RZGate(pi / 2), [q[1]], []),
+            (CX_PIGate(1), [q[1]], []),
+            (CzGate(), [q[0], q[1]], []),
+            (CX_PIGate(1), [q[1]], []),
+            (RZGate(pi / 2), [q[1]], []),
+            (CX_PIGate(1), [q[1]], []),
         ]
         for inst in rule:
             definition.append(inst)

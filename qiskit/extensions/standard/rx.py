@@ -17,14 +17,15 @@
 """
 Rotation around the x-axis.
 """
-from qiskit.circuit import Gate, singleton
+from qiskit.circuit import Gate
+from qiskit.extensions.standard.rx_pi import CX_PIGate
+from qiskit.extensions.standard.rz import RZGate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.qasm import pi
 from qiskit.extensions.standard.u3 import U3Gate
 
 
-@singleton
 class RXGate(Gate):
     """rotation around the x-axis."""
 
@@ -32,20 +33,28 @@ class RXGate(Gate):
         """Create new rx single qubit gate."""
         super().__init__("rx", 1, [theta])
 
+
     def _define(self):
         """
-        gate rx(theta) a {u3(theta, -pi/2, pi/2) a;}
-        """
+            gate cz a,b { h b; cx a,b; h b; }
+            """
         definition = []
         q = QuantumRegister(1, "q")
         rule = [
-            (U3Gate(self.params[0], -pi/2, pi/2), [q[0]], [])
+            (RZGate(- pi / 2), [q[0]], []),
+            (CX_PIGate(1), [q[0]], []),
+            (RZGate(self.params[0]), [q[0]], []),
+            (CX_PIGate(1), [q[0]], []),
+            (RZGate(- pi / 2), [q[0]], [])
         ]
         for inst in rule:
             definition.append(inst)
         self.definition = definition
 
-    def inverse(self):
+
+
+
+def inverse(self):
         """Invert this gate.
 
         rx(theta)^dagger = rx(-theta)

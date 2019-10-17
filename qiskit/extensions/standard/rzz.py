@@ -15,14 +15,13 @@
 """
 two-qubit ZZ-rotation gate.
 """
-from qiskit.circuit import Gate, singleton
+from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.extensions.standard.u1 import U1Gate
 from qiskit.extensions.standard.cx import CnotGate
 
 
-@singleton
 class RZZGate(Gate):
     """Two-qubit ZZ-rotation gate."""
 

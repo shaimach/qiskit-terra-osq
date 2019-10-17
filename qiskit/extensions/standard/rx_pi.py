@@ -12,54 +12,64 @@
 # copyright notice, and modified files need to carry a notice indicating
 # that they have been altered from the originals.
 
+# pylint: disable=invalid-name
+
 """
-Pauli X (bit-flip) gate.
+Rotation around the x-axis.
 """
 
-import numpy
-
+import  numpy
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.qasm import pi
 from qiskit.extensions.standard.u3 import U3Gate
+import numpy
+from qiskit.exceptions import QiskitError
 
+class CX_PIGate(Gate):
+    """rotation around the x-axis."""
 
-class XGate(Gate):
-    """Pauli X (bit-flip) gate."""
+    def __init__(self, theta):
+        """Create new rx single qubit gate."""
+        if theta % 1 != 0:
+            raise QiskitError('the desired angle is not supported by the gate ')
 
-    def __init__(self, label=None):
-        """Create new X gate."""
-        super().__init__("x", 1, [], label=label)
+        super().__init__("rx_pi/2", 1, [theta])
+
 
     def _define(self):
         """
-        gate x a {
-        u3(pi,0,pi) a;
-        }
+        gate rx(theta) a {u3(theta, -pi/2, pi/2) a;}
         """
         definition = []
         q = QuantumRegister(1, "q")
         rule = [
-            (U3Gate(pi, 0, pi), [q[0]], [])
+            (U3Gate(self.params[0]*pi/2, -pi/2, pi/2), [q[0]], [])
         ]
         for inst in rule:
             definition.append(inst)
         self.definition = definition
 
+
     def inverse(self):
-        """Invert this gate."""
-        return XGate()  # self-inverse
+        """Invert this gate.
+
+        rx(theta)^dagger = rx(-theta)
+        """
+        return CX_PIGate(-self.params[0])
 
     def to_matrix(self):
-        """Return a Numpy.array for the X gate."""
-        return numpy.array([[0, 1],
-                            [1, 0]], dtype=complex)
+        """Return a Numpy.array for the U3 gate."""
+        lam = self.params[0]
+        lam = float(lam)
+        return numpy.array([[1, 0], [0, numpy.exp(1j * lam)]], dtype=complex)
 
 
-def x(self, q):
-    """Apply X to q."""
-    return self.append(XGate(), [q], [])
+
+def rx_pi(self, theta, q):
+    """Apply Rx to q."""
+    return self.append(CX_PIGate(theta), [q], [])
 
 
-QuantumCircuit.x = x
+QuantumCircuit.rx_pi = rx_pi

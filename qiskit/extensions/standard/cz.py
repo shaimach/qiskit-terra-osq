@@ -19,13 +19,11 @@ controlled-Phase gate.
 """
 import numpy
 
-from qiskit.circuit import Gate, singleton
+from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
-from qiskit.extensions.standard.h import HGate
-from qiskit.extensions.standard.cx import CnotGate
 
-@singleton
+
 class CzGate(Gate):
     """controlled-Z gate."""
 
@@ -33,24 +31,12 @@ class CzGate(Gate):
         """Create new CZ gate."""
         super().__init__("cz", 2, [], label=label)
 
-    def _define(self):
-        """
-        gate cz a,b { h b; cx a,b; h b; }
-        """
-        definition = []
-        q = QuantumRegister(2, "q")
-        rule = [
-            (HGate(), [q[1]], []),
-            (CnotGate(), [q[0], q[1]], []),
-            (HGate(), [q[1]], [])
-        ]
-        for inst in rule:
-            definition.append(inst)
-        self.definition = definition
 
     def inverse(self):
         """Invert this gate."""
         return CzGate()  # self-inverse
+
+
 
     def to_matrix(self):
         """Return a Numpy.array for the Cz gate."""

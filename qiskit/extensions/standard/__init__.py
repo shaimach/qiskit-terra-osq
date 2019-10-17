@@ -44,3 +44,5 @@ from .ch import CHGate
 from .crz import CrzGate
 from .cu3 import Cu3Gate
 from .rzz import RZZGate
+from .rx_pi import CX_PIGate
+from .u3_eth import  U3Gate_eth
